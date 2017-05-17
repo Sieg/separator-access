@@ -1,0 +1,23 @@
+{
+    "name": "sieg/separator-access",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Anton Fedurtsya",
+            "email": "anton@fedurtsya.com"
+        }
+    ],
+    "require": {
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^4.8",
+        "squizlabs/php_codesniffer": "^2.7"
+    },
+    "autoload": {
+        "psr-4": {"Sieg\\SeparatorAccess\\": "Source"}
+    },
+    "autoload-dev": {
+        "psr-4": { "Sieg\\SeparatorAccess\\Tests\\": "Tests/" }
+    }
+}
