@@ -45,4 +45,80 @@ class DataContainer
     {
         $this->data = $data;
     }
+
+    /**
+     * Separator getter
+     *
+     * @return string
+     */
+    public function getSeparator()
+    {
+        return $this->keySeparator;
+    }
+
+    /**
+     * Value getter by key
+     *
+     * @param string $key
+     *
+     * @return mixed|null
+     */
+    public function get($key)
+    {
+        $data = $this->getData();
+        $result = null;
+
+        if (strpos($key, $this->getSeparator())) {
+            $path = $this->getPath($key);
+            $lastLevelData = $this->getDeepLevelLink($data, $path);
+            $mainKey = end($path);
+
+            if (array_key_exists($mainKey, $lastLevelData)) {
+                $result = $lastLevelData[$mainKey];
+            }
+        } elseif (isset($data[$key])) {
+            $result = $data[$key];
+        }
+
+        return $result;
+    }
+
+    /**
+     * Parses the key by separator
+     *
+     * @param string $key
+     *
+     * @return array
+     */
+    protected function getPath($key)
+    {
+        return explode($this->getSeparator(), $key);
+    }
+
+    /*
+     * Move deep by key path and return deepest possible level data set Link
+     */
+    protected function getDeepLevelLink($data, $path)
+    {
+        $result = [];
+        do {
+            if (!is_array($data)) {
+                break;
+            }
+
+            $step = array_shift($path);
+            if ($path) {
+                if (!isset($data[$step])) {
+                    break;
+                }
+
+                $data = &$data[$step];
+            } else {
+                $result = $data;
+                break;
+            }
+        } while ($path);
+
+        return $result;
+    }
 }
