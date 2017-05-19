@@ -68,17 +68,13 @@ class DataContainer
         $data = $this->getData();
         $result = null;
 
-        if (strpos($key, $this->getSeparator())) {
-            $path = $this->getPath($key);
-            if ($lastLevelData = $this->getDeepLevelLink($data, $path) and is_array($lastLevelData)) {
-                $mainKey = end($path);
-                if (array_key_exists($mainKey, $lastLevelData)) {
-                    $result = $lastLevelData[$mainKey];
-                }
-            };
-        } elseif (isset($data[$key])) {
-            $result = $data[$key];
-        }
+        $path = $this->getPath($key);
+        if ($lastLevelData = $this->getDeepLevelLink($data, $path) and is_array($lastLevelData)) {
+            $mainKey = end($path);
+            if (array_key_exists($mainKey, $lastLevelData)) {
+                $result = $lastLevelData[$mainKey];
+            }
+        };
 
         return $result;
     }
@@ -93,14 +89,10 @@ class DataContainer
     {
         $data = &$this->data;
 
-        if (strpos($key, $this->getSeparator())) {
-            $path = $this->getPath($key);
-            $lastLevelData = &$this->ensureStructure($data, $path);
-            $mainKey = end($path);
-            $lastLevelData[$mainKey] = $value;
-        } else {
-            $data[$key] = $value;
-        }
+        $path = $this->getPath($key);
+        $lastLevelData = &$this->ensureStructure($data, $path);
+        $mainKey = end($path);
+        $lastLevelData[$mainKey] = $value;
     }
 
     /**
