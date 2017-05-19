@@ -18,6 +18,12 @@ class DataContainerTest extends \PHPUnit_Framework_TestCase
         'key3' => [
             'key31' => 'value31',
             'key32' => 'value32'
+        ],
+        'key4' => [
+            'key41' => [
+                'key411' => 'value411',
+                'key412' => 'value412'
+            ]
         ]
     ];
 
@@ -71,5 +77,41 @@ class DataContainerTest extends \PHPUnit_Framework_TestCase
         $container = new DataContainer($this->arrayExample);
         $result = $container->get($key);
         $this->assertSame($value, $result);
+    }
+
+    public function testResetLevel0Data()
+    {
+        $testData = $this->arrayExample;
+        $testDataAccess = new DataContainer($this->arrayExample);
+
+        $testDataAccess->reset('key3');
+        unset($testData['key3']);
+
+        $result = $testDataAccess->getData();
+        $this->assertSame($testData, $result);
+    }
+
+    public function testResetLevel1()
+    {
+        $testData = $this->arrayExample;
+        $testDataAccess = new DataContainer($this->arrayExample);
+
+        $testDataAccess->reset('key3.key32');
+        unset($testData['key3']['key32']);
+
+        $result = $testDataAccess->getData();
+        $this->assertSame($testData, $result);
+    }
+
+    public function testResetLevel2()
+    {
+        $testData = $this->arrayExample;
+        $testDataAccess = new DataContainer($this->arrayExample);
+
+        $testDataAccess->reset('key4.key41.key411');
+        unset($testData['key4']['key41']['key411']);
+
+        $result = $testDataAccess->getData();
+        $this->assertSame($testData, $result);
     }
 }

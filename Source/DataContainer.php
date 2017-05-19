@@ -70,17 +70,39 @@ class DataContainer
 
         if (strpos($key, $this->getSeparator())) {
             $path = $this->getPath($key);
-            $lastLevelData = $this->getDeepLevelLink($data, $path);
-            $mainKey = end($path);
-
-            if (array_key_exists($mainKey, $lastLevelData)) {
-                $result = $lastLevelData[$mainKey];
-            }
+            if ($lastLevelData = $this->getDeepLevelLink($data, $path) and is_array($lastLevelData)) {
+                $mainKey = end($path);
+                if (array_key_exists($mainKey, $lastLevelData)) {
+                    $result = $lastLevelData[$mainKey];
+                }
+            };
         } elseif (isset($data[$key])) {
             $result = $data[$key];
         }
 
         return $result;
+    }
+
+    /**
+     * Reset the value under the key
+     *
+     * @param string $key
+     */
+    public function reset($key)
+    {
+        $data = &$this->data;
+
+        if (strpos($key, $this->getSeparator())) {
+            $path = $this->getPath($key);
+            $lastLevelData = &$this->getDeepLevelLink($data, $path);
+            $mainKey = end($path);
+
+            if (array_key_exists($mainKey, $lastLevelData)) {
+                unset($lastLevelData[$mainKey]);
+            }
+        } elseif (isset($data[$key])) {
+            unset($data[$key]);
+        }
     }
 
     /**
@@ -98,23 +120,25 @@ class DataContainer
     /*
      * Move deep by key path and return deepest possible level data set Link
      */
-    protected function getDeepLevelLink($data, $path)
+    protected function &getDeepLevelLink(&$data, $path)
     {
-        $result = [];
+        $result = &$data;
         do {
-            if (!is_array($data)) {
+            if (!is_array($result)) {
+                $result = null;
                 break;
             }
 
             $step = array_shift($path);
             if ($path) {
                 if (!isset($data[$step])) {
+                    $result = null;
                     break;
                 }
 
                 $data = &$data[$step];
             } else {
-                $result = $data;
+                $result = &$data;
                 break;
             }
         } while ($path);
