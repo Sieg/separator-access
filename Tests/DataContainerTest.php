@@ -79,6 +79,30 @@ class DataContainerTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($value, $result);
     }
 
+    public function testSetLevel0Data()
+    {
+        $additionalKey = 'key5';
+        $additionalValue = 'value5';
+
+        $testDataAccess = new DataContainer($this->arrayExample);
+        $testDataAccess->set($additionalKey, $additionalValue);
+
+        $this->assertArrayNotHasKey($additionalKey, $this->arrayExample);
+        $this->assertEquals($testDataAccess->get($additionalKey), $additionalValue);
+    }
+
+    public function testSetLevel1Data()
+    {
+        $additionalKey = 'key5.key51';
+        $additionalValue = 'value511';
+
+        $testDataAccess = new DataContainer($this->arrayExample);
+        $testDataAccess->set($additionalKey, $additionalValue);
+
+        $this->assertArrayNotHasKey("key5", $this->arrayExample);
+        $this->assertEquals($testDataAccess->get($additionalKey), $additionalValue);
+    }
+
     public function testSetData()
     {
         $changedData = [

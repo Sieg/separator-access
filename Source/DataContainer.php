@@ -84,6 +84,26 @@ class DataContainer
     }
 
     /**
+     * Set the value under the key
+     *
+     * @param string $key
+     * @param mixed $value
+     */
+    public function set($key, $value)
+    {
+        $data = &$this->data;
+
+        if (strpos($key, $this->getSeparator())) {
+            $path = $this->getPath($key);
+            $lastLevelData = &$this->ensureStructure($data, $path);
+            $mainKey = end($path);
+            $lastLevelData[$mainKey] = $value;
+        } else {
+            $data[$key] = $value;
+        }
+    }
+
+    /**
      * Reset the value under the key
      *
      * @param string $key
@@ -119,6 +139,9 @@ class DataContainer
 
     /*
      * Move deep by key path and return deepest possible level data set Link
+     *
+     * @param mixed $data
+     * @param array $path
      */
     protected function &getDeepLevelLink(&$data, $path)
     {
@@ -145,4 +168,29 @@ class DataContainer
 
         return $result;
     }
+
+    /**
+     * Ensure the path to exist in array
+     *
+     * @param array $data
+     * @param array $path
+     *
+     * @return array link to the deepest level of path
+     */
+    protected function &ensureStructure(&$data, $path)
+    {
+        $result = &$data;
+        do {
+            $step = array_shift($path);
+            if ($path) {
+                if (!array_key_exists($step, $result)) {
+                    $result[$step] = [];
+                }
+
+                $result = &$result[$step];
+            }
+        } while ($path);
+
+        return $result;
+   }
 }
