@@ -47,6 +47,16 @@ class DataContainer
     }
 
     /**
+     * Set data as reference
+     *
+     * @param mixed $value
+     */
+    public function setDataReference(&$reference)
+    {
+        $this->data = &$reference;
+    }
+
+    /**
      * Separator getter
      *
      * @return string

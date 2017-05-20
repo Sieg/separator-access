@@ -116,6 +116,15 @@ class DataContainerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($changedData, $result);
     }
 
+    public function testSetDataReference()
+    {
+        $testDataAccess = new DataContainer();
+        $testDataAccess->setDataReference($this->arrayExample);
+
+        $testDataAccess->set("key3.key31", "othervalue31");
+        $this->assertEquals($this->arrayExample, $testDataAccess->getData());
+    }
+
     public function testResetLevel0Data()
     {
         $testData = $this->arrayExample;
