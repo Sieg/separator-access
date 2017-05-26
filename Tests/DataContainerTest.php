@@ -8,7 +8,7 @@ use Sieg\SeparatorAccess\DataContainer;
  * Class ContainerTest
  * @package SeparatorAccess
  *
- * @covers \Sieg\SeparatorAccess\Container
+ * @covers \Sieg\SeparatorAccess\DataContainer
  */
 class DataContainerTest extends \PHPUnit_Framework_TestCase
 {
