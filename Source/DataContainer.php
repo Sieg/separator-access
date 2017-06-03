@@ -114,16 +114,12 @@ class DataContainer
     {
         $data = &$this->data;
 
-        if (strpos($key, $this->getSeparator())) {
-            $path = $this->getPath($key);
-            $lastLevelData = &$this->getDeepLevelLink($data, $path);
-            $mainKey = end($path);
+        $path = $this->getPath($key);
+        $lastLevelData = &$this->getDeepLevelLink($data, $path);
+        $mainKey = end($path);
 
-            if (array_key_exists($mainKey, $lastLevelData)) {
-                unset($lastLevelData[$mainKey]);
-            }
-        } elseif (isset($data[$key])) {
-            unset($data[$key]);
+        if (array_key_exists($mainKey, $lastLevelData)) {
+            unset($lastLevelData[$mainKey]);
         }
     }
 
