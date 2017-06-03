@@ -151,7 +151,7 @@ class DataContainer
         do {
             $step = array_shift($path);
 
-            if (!is_array($result) || !isset($data[$step])) {
+            if (!isset($data[$step])) {
                 $result = null;
                 break;
             }
