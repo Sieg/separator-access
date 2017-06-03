@@ -75,11 +75,10 @@ class DataContainer
      */
     public function get($key)
     {
-        $data = $this->getData();
         $result = null;
 
         $path = $this->getPath($key);
-        if ($lastLevelData = $this->getDeepLevelLink($data, $path) and is_array($lastLevelData)) {
+        if ($lastLevelData = $this->getDeepLevelLink($this->getData(), $path) and is_array($lastLevelData)) {
             $mainKey = end($path);
             if (array_key_exists($mainKey, $lastLevelData)) {
                 $result = $lastLevelData[$mainKey];
@@ -149,18 +148,14 @@ class DataContainer
     {
         $result = &$data;
         do {
-            if (!is_array($result)) {
+            $step = array_shift($path);
+
+            if (!is_array($result) || !isset($data[$step])) {
                 $result = null;
                 break;
             }
 
-            $step = array_shift($path);
             if ($path) {
-                if (!isset($data[$step])) {
-                    $result = null;
-                    break;
-                }
-
                 $data = &$data[$step];
             } else {
                 $result = &$data;
