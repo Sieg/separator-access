@@ -76,9 +76,10 @@ class DataContainer
     public function get($key)
     {
         $result = null;
+        $data = $this->getData();
 
         $path = $this->getPath($key);
-        if ($lastLevelData = $this->getDeepLevelLink($this->getData(), $path) and is_array($lastLevelData)) {
+        if ($lastLevelData = $this->getDeepLevelLink($data, $path) and is_array($lastLevelData)) {
             $mainKey = end($path);
             if (array_key_exists($mainKey, $lastLevelData)) {
                 $result = $lastLevelData[$mainKey];
