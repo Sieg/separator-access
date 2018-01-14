@@ -2,6 +2,7 @@
 
 namespace Sieg\SeparatorAccess\Tests;
 
+use PHPUnit\Framework\TestCase;
 use Sieg\SeparatorAccess\DataContainer;
 
 /**
@@ -10,7 +11,7 @@ use Sieg\SeparatorAccess\DataContainer;
  *
  * @covers \Sieg\SeparatorAccess\DataContainer
  */
-class DataContainerTest extends \PHPUnit_Framework_TestCase
+class DataContainerTest extends TestCase
 {
     public $arrayExample = [
         'key1' => 'value1',
